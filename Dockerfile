@@ -47,4 +47,12 @@ RUN sed -i 's/E_ALL/E_ALL \& ~E_DEPRECATED \& ~E_STRICT/g' /usr/local/etc/php/ph
 RUN mkdir -p ~/.ssh
 COPY ssh_config ~/.ssh/config
 
+# Install node, npm, aquifer, and gulp.
+ENV NODE_VERSION 16.15.0
+ENV NPM_VERSION 8.13.1
+RUN curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" && \
+  tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 && \
+  rm "node-v$NODE_VERSION-linux-x64.tar.gz" && \
+  npm install -g npm@"$NPM_VERSION"
+
 RUN rm -rf /var/www/html
